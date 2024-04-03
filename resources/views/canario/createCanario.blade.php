@@ -2,7 +2,7 @@
 @section('contenido_extra')
 <div class="menu">
     <ul>
-        <li class="cerrar-sesion"><a href="{{ route('layout.logout') }}">Cerrar Sesión</a></li>
+        <li class="cerrar-sesion"><a href="{{ route('layout.logout') }}" title="Botón Cerrar Sesión">Cerrar Sesión</a></li>
     </ul>
 </div>
 @endsection
@@ -15,27 +15,32 @@
     <form action="{{ route('canario.store') }}" method="POST" class="formulario">
         @csrf
         <label for="nombreRaza">Nombre Raza: </label>
-        <input type="text" name="nombreRaza" required>
+        <input type="text" name="nombreRaza" placeholder="Nombre Raza" required>
         <br>
         <br>
         <label for="anioNacimiento">Año de Nacimiento: </label>
-        <input type="number" name="anioNacimiento" required>
+        <input type="number" name="anioNacimiento" placeholder="Año Nacimiento" required>
         <br>
         <br>
         <label for="sexo">Sexo: </label>
-        <input type="text" name="sexo" required>
+        <input type="text" name="sexo" placeholder="Sexo" required>
         <br>
         <br>
         <label for="numeroAnilla">Numero Anilla: </label>
-        <input type="number" name="numeroAnilla" required>
+        <input type="number" name="numeroAnilla" placeholder="Numero Anilla" required>
         <br>
         <br>
         <label for="descripcion">Descripcion: </label>
-        <input type="text" name="descripcion" required>
+        <input type="text" name="descripcion" placeholder="Descripcion" required>
         <br>
         <br>
-        <label for="vaConcurso">Va a concurso</label>
-        <input type="checkbox" name="vaConcurso">
+        <label for="vaConcurso">Selecciona el concurso:</label>
+        <select name="vaConcurso">
+            <option value="">Selecciona un concurso</option>
+            @foreach($concursos as $concurso)
+                <option value="{{ $concurso->id }}">{{ $concurso->sede }}</option>
+            @endforeach
+        </select>        
         <br>
         <br>
 

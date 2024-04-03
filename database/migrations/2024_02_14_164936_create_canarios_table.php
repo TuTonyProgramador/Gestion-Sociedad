@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('sexo')->nullable(false);
             $table->integer('numeroAnilla')->nullable(false);
             $table->string('descripcion')->nullable(false);
-            $table->boolean('vaConcurso')->nullable(false);
+            $table->string('vaConcurso')->nullable(true);
             $table->unsignedBigInteger('criador_id');
             $table->timestamps();
         });

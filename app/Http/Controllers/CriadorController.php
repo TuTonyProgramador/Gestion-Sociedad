@@ -152,4 +152,23 @@ class CriadorController extends Controller
     
         return redirect()->route('criador.showC');
     }
+
+    /*
+    Función para realizar una búsqueda de criadores.
+    Recibe: la solicitud HTTP.
+    Devuelve: la vista criador.resultados_busqueda.
+    */
+    public function search(Request $request) {
+        // Obtener el término de búsqueda del formulario
+        $query = $request->input('buscador');
+    
+        // Buscar los criadores que coincidan con el término de búsqueda
+        $criadores = Criador::where('numeroCriador', 'LIKE', '%' . $query . '%')
+                            ->orWhere('nombre', 'LIKE', '%' . $query . '%')
+                            ->orWhere('apellidos', 'LIKE', '%' . $query . '%')
+                            ->get();
+    
+        // Devolver solo los resultados de la búsqueda en formato HTML
+        return view('criador.resultados_busqueda', compact('criadores'));
+    }
 }

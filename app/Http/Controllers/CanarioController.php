@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Canario;
 use App\Models\Criador;
+use App\Models\Concurso;
 use Illuminate\Support\Facades\Auth;
 
 class CanarioController extends Controller
@@ -45,9 +46,11 @@ class CanarioController extends Controller
     Devuelve: la vista 'canario.createCanario'
     */
     public function create() {
-        return view('canario.createCanario');
+        $concursos = Concurso::all();
+    
+        return view('canario.createCanario', compact('concursos'));
     }
-
+    
     /*
     Funcion para crear un canario
     Recibe: un objeto de tipo Request 
@@ -66,23 +69,25 @@ class CanarioController extends Controller
                 'anioNacimiento' => $request->anioNacimiento,
                 'criador_id' => $criador->id
             ])->first();
-
+    
             // Si existe un canario con las mismas características, mostramos un mensaje de error
             if ($existingCanario) {
                 return redirect()->back()->with('error', 'Este canario ya existe');
             }
     
-            // Comprobamos si el canario va a participar en un concurso
-            $vaConcurso = $request->has('vaConcurso') ? 1 : 0;
+            // Obtenemos el valor del concurso seleccionado
+            $concursoSeleccionado = $request->input('vaConcurso');
     
-            // Creamos un nuevo canario con los datos proporcionados 
-            $canario = Canario::create(array_merge($request->all(), ['vaConcurso' => $vaConcurso]));
+            // Creamos un nuevo canario con los datos proporcionados
+            $canarioData = $request->except('vaConcurso');
+            $canarioData['vaConcurso'] = $concursoSeleccionado;
+            $canario = Canario::create($canarioData);
     
-            if ($request->has('vaConcurso')) {
-                // Asociar el canario con el concurso mediante la tabla canario_concurso
-                $canario->concursos()->attach($criador->id);
+            if ($concursoSeleccionado) {
+                // Asociar el canario con el concurso mediante el campo vaConcurso
+                $canario->concursos()->attach($concursoSeleccionado);
             }
-
+    
             // Comprobamos si el usuario es administrador
             if ($criador->esAdmin) {
                 // Si el usuario es un administrador, redirigir a la vista showCanA
@@ -95,6 +100,7 @@ class CanarioController extends Controller
             return redirect()->back()->with('error', 'Ha ocurrido un error');
         }
     }
+    
 
     /*
     Función para mostrar el formulario de edición de un criador.
@@ -102,7 +108,9 @@ class CanarioController extends Controller
     Devuelve: la vista 'canario.editCanario' con los datos del canario
     */
     public function edit(Canario $canario) {
-        return view('canario.editCanario', compact('canario'));
+        $concursos = Concurso::all();
+
+        return view('canario.editCanario', compact('canario'), compact('concursos'));
     }
     
     /*
@@ -112,29 +120,23 @@ class CanarioController extends Controller
     Devuelve: la vista 'canario.showCan' 
     */
     public function update(Request $request, Canario $canario) {
-        // Obtenemos el criador autenticado
-        $criador = Auth::user();
-
-        // Verifica si el checkbox está marcado y establece el valor de vaConcurso en consecuencia
-        $request->merge(['vaConcurso' => $request->has('vaConcurso') ? 1 : 0]);
-    
-        // Actualiza los datos del canario
+        // Actualiza los datos del canario, incluido el campo vaConcurso
         $canario->update($request->all());
     
-        // Si el checkbox está marcado, lo asociamos a la tabla intermedia
-        if ($request->input('vaConcurso')) {
-            // Asociar el canario con el concurso mediante la tabla canario_concurso
-            $canario->concursos()->attach($criador->id);
+        // Obtenemos el valor del concurso seleccionado
+        $concursoSeleccionado = $request->input('vaConcurso');
+    
+        // Actualiza la relación en la tabla intermedia
+        if ($concursoSeleccionado) {
+            $canario->concursos()->sync([$concursoSeleccionado]);
         } else {
-            // Si el checkbox no está marcado, desasociamos el canario de todos los concursos
             $canario->concursos()->detach();
         }
     
-        if ($criador->esAdmin) {
-            // Si el usuario es un administrador, redirigir a la vista showCanA
+        // Redirecciona según el rol del usuario
+        if (Auth::user()->esAdmin) {
             return redirect()->route('canario.showCanA');
         } else {
-            // Si el usuario no es un administrador, redirigir a la vista showCan
             return redirect()->route('canario.showCan');
         }
     }
@@ -162,4 +164,40 @@ class CanarioController extends Controller
             return redirect()->route('canario.showCan');
         }
     }
+
+    /*
+    Función para realizar una búsqueda de canarios.
+    Recibe: la solicitud HTTP.
+    Devuelve: la vista canario.resultados_busqueda.
+    */
+    public function search(Request $request) {
+        // Obtener el término de búsqueda del formulario
+        $query = $request->input('buscador');
+    
+        // Obtener el ID del criador autenticado
+        $criador_id = Auth::id();
+    
+        // Inicializar la consulta para obtener todos los canarios del criador autenticado
+        $canariosQuery = Canario::where('criador_id', $criador_id);
+    
+        // Verificar si hay un término de búsqueda
+        if (!empty($query)) {
+            // Si hay un término de búsqueda, aplicar filtros
+            $canariosQuery->where(function($q) use ($query) {
+                $q->where('nombreRaza', $query)
+                  ->orWhere('numeroAnilla', $query)
+                  ->orWhere('anioNacimiento', $query)
+                  ->orWhere('sexo', $query)
+                  ->orWhere('descripcion', $query);
+            });
+        }
+    
+        // Obtener los resultados de la búsqueda
+        $canarios = $canariosQuery->get();
+    
+        // Devolver los resultados de la búsqueda en formato HTML
+        return view('canario.resultados_busqueda', compact('canarios'));
+    }
+    
+     
 }

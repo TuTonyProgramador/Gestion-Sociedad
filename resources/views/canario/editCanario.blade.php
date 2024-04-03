@@ -2,7 +2,7 @@
 @section('contenido_extra')
 <div class="menu">
     <ul>
-        <li class="cerrar-sesion"><a href="{{ route('layout.logout') }}">Cerrar Sesión</a></li>
+        <li class="cerrar-sesion"><a href="{{ route('layout.logout') }}" title="Botón Cerrar Sesión">Cerrar Sesión</a></li>
     </ul>
 </div>
 @endsection
@@ -30,8 +30,15 @@
         <input type="text" name="descripcion" value="{{ $canario->descripcion }}" required>
         <br>
         <br>
-        <label for="vaConcurso">Va a concurso</label>
-        <input type="checkbox" name="vaConcurso" {{ $canario->vaConcurso == 1 ? 'checked' : '' }}>
+        <label for="vaConcurso">Selecciona el concurso:</label>
+        <select name="vaConcurso">
+            <option value="">Selecciona un concurso</option>
+            @foreach($concursos as $concurso)
+                <option value="{{ $concurso->id }}" {{ $concurso->id == $canario->vaConcurso ? 'selected' : '' }}>
+                    {{ $concurso->sede }}
+                </option>
+            @endforeach
+        </select>
         <br>
         <br>
         <input type="submit" value="Guardar">

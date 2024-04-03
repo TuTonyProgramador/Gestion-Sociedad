@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Concurso;
+use App\Models\Criador;
 use Illuminate\Support\Facades\Auth;
 
 class ConcursoController extends Controller
@@ -87,4 +88,32 @@ class ConcursoController extends Controller
     
         return redirect()->route('concurso.showCon');
     }
+
+    /*
+    Función para mostrar los canarios asociados a un concurso específico.
+    Recibe: un objeto de tipo Concurso
+    Devuelve: la vista 'concurso.canariosConcurso' 
+    */
+    public function canariosConcurso(Concurso $concurso) {
+        // Obtenemos los canarios asociados a este concurso específico
+        $canarios = $concurso->canarios;
+        
+        return view('concurso.canariosConcurso', compact('concurso', 'canarios'));
+    }
+
+    /*
+    Función para mostrar los canarios por concurso del criador autenticado.
+    Recibe: nada
+    Devuelve: la vista 'concurso.canariosCriador' 
+    */
+    public function canariosCriador(){
+        // Obtenemos el criador actualmente autenticado
+        $criador = Auth::user(); 
+        
+        // Obtenemos los concursos del criador actual, con los canarios asociados a cada concurso
+        $concursos = $criador->concursos()->with('canarios')->get();
+        
+        return view('concurso.canariosCriador', compact('concursos'));
+    }
+
 }

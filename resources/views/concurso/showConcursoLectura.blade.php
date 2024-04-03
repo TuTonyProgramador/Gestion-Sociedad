@@ -2,23 +2,23 @@
 @section('contenido_extra')
 <div class="menu">
     <ul>
-        <li class="cerrar-sesion"><a href="{{ route('layout.logout') }}">Cerrar Sesión</a></li>
+        <li class="cerrar-sesion"><a href="{{ route('layout.logout') }}" title="Botón Cerrar Sesión">Cerrar Sesión</a></li>
     </ul>
 </div>
 @endsection
 @section('contenido')
     <div class="menu">
         <ul>
-            <li><a href="{{ route('canario.showCan') }}">Volver</a></li>
+            <li><a href="{{ route('canario.showCan') }}" title="Botón Volver">Volver</a></li>
         </ul>
     </div>
     <h2>Listado de concursos</h2>
     <table>
         <thead>
             <tr>
-                <th>Fecha Concurso</th>
-                <th>Sede</th>
-                <th>Ubicacion</th>
+                <th scope="col">Fecha Concurso</th>
+                <th scope="col">Sede</th>
+                <th scope="col">Ubicacion</th>
             </tr>
         </thead>
         <tbody>

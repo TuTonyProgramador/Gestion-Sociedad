@@ -2,14 +2,14 @@
 @section('contenido_extra')
 <div class="menu">
     <ul>
-        <li class="cerrar-sesion"><a href="{{ route('layout.logout') }}">Cerrar Sesión</a></li>
+        <li class="cerrar-sesion"><a href="{{ route('layout.logout') }}" title="Botón Cerrar Sesión">Cerrar Sesión</a></li>
     </ul>
 </div>
 @endsection
 @section('contenido')
     <div class="menu">
         <ul>
-            <li><a href="{{ route('canario.showCan') }}" class="boton">Volver</a></li>
+            <li><a href="{{ route('canario.showCan') }}" class="boton" title="Botón Volver">Volver</a></li>
         </ul>
     </div>
     <form action="" method="POST" class="formulario">

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Password;
+use Illuminate\Http\RedirectResponse;
 
 class LayoutController extends Controller
 {
@@ -42,5 +44,22 @@ class LayoutController extends Controller
 
         // Redirige al usuario a la vista de inicio del criador después de cerrar sesión
         return redirect(route('criador.sesionC'));
+    }
+
+    public function enviarLinkRecuperacion(Request $request) {
+        $request->validate([
+            'email' => ['required', 'email'],
+        ]);
+
+        // Envía el enlace de restablecimiento de contraseña al correo proporcionado
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        // Verifica el resultado de la solicitud y redirige en consecuencia
+        return $status == Password::RESET_LINK_SENT
+                    ? back()->with('status', __($status))
+                    : back()->withInput($request->only('email'))
+                            ->withErrors(['email' => __($status)]);
     }
 }

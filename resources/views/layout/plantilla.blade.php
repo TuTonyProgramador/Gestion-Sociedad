@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../style/style.css">
+    <script src="{{ asset('js/script.js') }}"></script>
     <link rel="shortcut icon" href="{{ asset('IMG/logo.jpg') }}" type="image/x-icon">
     <title>Club Timbrado Baenense</title>
 </head>
@@ -15,26 +16,17 @@
         @yield('contenido_extra')
     </div>
 
-
     @yield('contenido')
 
-    <br><br><br><br>
-
-    <div class="footer" id="pieDePag">
+    <footer>
         <p>© 2024 Club Timbrado Baenense. Todos los derechos reservados.</p>
-    </div>
-
-    <script>
-        window.onload = function() {
-            var contentHeight = document.body.scrollHeight;
-            var windowHeight = window.innerHeight;
-            var footer = document.getElementById('pieDePag');
-            
-            if (contentHeight < windowHeight) {
-                var footerMargin = windowHeight - contentHeight;
-                footer.style.marginTop = footerMargin + 'px';
-            }
-        }
-    </script>    
+        <p>
+            <a href="http://jigsaw.w3.org/css-validator/check/referer">
+                <img style="border:0;width:88px;height:31px"
+                    src="http://jigsaw.w3.org/css-validator/images/vcss"
+                    alt="¡CSS Válido!" />
+            </a>
+        </p>
+    </footer>    
 </body>
 </html>

@@ -1,122 +1,207 @@
-body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
+/* Definición de variables globales */
+:root {
+    --color-negro: #333; /* Color negro para menú y pie de página */
+    --color-blanco: white; /* Color blanco */
+    --color-fondoT: #e4e3e3; /* Color de fondo para los títulos */
+    --color-body: #f4f4f4; /* Color de fondo del cuerpo */
+    --color-grisaceo: #ccc; /* Color gris para elementos de la interfaz */
+    --color-azul: #007bff; /* Color azul */
+    --color-azulH: #0056b3; /* Color azul más oscuro */
 }
 
-/* Cabecera */
+/* Estilos generales del cuerpo de la página */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif; /* Familia de fuentes */
+    background-color: var(--color-body); /* Color de fondo */
+    margin: 0; /* Elimina los márgenes predeterminados */
+    padding: 0; /* Elimina el relleno predeterminado */
+    line-height: 1.6; /* Altura de línea */
+    display: flex; /* Utiliza el modelo de caja flexible */
+    flex-direction: column; /* Los elementos hijos se apilan verticalmente */
+    min-height: 100vh; /* Altura mínima del cuerpo de la página */
+}
+
+/* Estilos para la cabecera */
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px;
-    background-color: #333;
-    color: #fff;
+    background-color: var(--color-negro); /* Color de fondo */
+    color: var(--color-blanco); /* Color del texto */
 }
 
 .header h1 {
-    margin: 0 auto;
-    font-size: 30px;
+    margin: 0 auto; /* Centra horizontalmente el título */
 }
 
 .header img {
-    width: 160px;
-    height: auto;
-    margin-right: 30px;
-}
-
-h2 {
-    color: #333; 
-    background-color: #f0f0f0; 
-    margin-top: 0px;
-    padding: 10px; 
-    border-radius: 5px; 
-    text-align: center; 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+    height: auto; /* Evita que la imagen se distorsione */
 }
 
 .cerrar-sesion {
-    margin-left: auto;
+    margin-left: auto; /* Coloca el botón de cierre de sesión a la derecha */
 }
 
-/* Formularios */
-.formulario {
-    max-width: 400px;
-    margin: 50px auto;
-    background: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* Estilos para los títulos */
+h2 {
+    color: var(--color-negro); /* Color del texto */
+    background-color: var(--color-fondoT); /* Color de fondo */
+    text-align: center; /* Alineación del texto */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra */
+    border-radius: 10px; /* Borde redondeado */
 }
 
-/* Menú */
+/* Estilos para los párrafos */
+p {
+    text-align: center; /* Alineación del texto */
+}
+
+/* Estilos para el menú */
 .container {
-    margin: 0 auto; /* Centers the container horizontally */
-    width: 80%; /* Adjust the width as needed */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin: 20px auto 0; /* Márgenes */
+    width: 80%; /* Ancho del contenedor */
+    display: flex; /* Utiliza el modelo de caja flexible */
+    flex-direction: column; /* Los elementos hijos se apilan verticalmente */
+    align-items: center; /* Centra horizontalmente los elementos */
 }
 
 .menu {
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Center menu items vertically */
-    margin: 20px 0; /* Adjusted margin */
+    display: flex; /* Utiliza el modelo de caja flexible */
+    justify-content: center; /* Centra horizontalmente los elementos */
+    margin: 20px 0 20px; /* Márgenes */
 }
 
 .menu ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-
-.menu ul li {
-    display: inline-block;
-    margin-right: 10px;
+    list-style-type: none; /* Elimina los estilos de la lista */
+    margin: 0; /* Elimina los márgenes predeterminados */
+    padding: 0; /* Elimina el relleno predeterminado */
+    text-align: center; /* Alineación del texto */
 }
 
 .menu ul li:last-child {
-    margin-right: 0;
+    margin-right: 0; /* Elimina el margen derecho del último elemento */
 }
 
 .menu ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    transition: background-color 0.3s ease;
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    color: var(--color-negro); /* Color del texto */
+    font-weight: bold; /* Texto en negrita */
+    border-radius: 5px; /* Borde redondeado */
+    background-color: var(--color-fondoT); /* Color de fondo */
+    transition: background-color 0.3s ease; /* Transición suave */
 }
 
 .menu ul li a:hover {
-    background-color: #ccc;
+    background-color: var(--color-grisaceo); /* Cambia el color de fondo al pasar el mouse */
 }
 
 .buscador {
-    margin-top: 20px; /* Adjusted margin */
-    text-align: right; /* Align the search bar to the right */
+    text-align: right; /* Alinea el texto a la derecha */
+}
+
+/* Estilos para filtros */
+.filtro {
+    display: flex; /* Utiliza el modelo de caja flexible */
+    justify-content: center; /* Centra horizontalmente los elementos */
+    align-items: center; /* Centra verticalmente los elementos */
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan */
+    margin-bottom: 20px; /* Márgenes inferiores */
+    text-align: center; /* Alineación del texto */
+}
+
+.filtro select {
+    padding: 10px; /* Relleno */
+    border: 2px solid #ccc; /* Borde */
+    border-radius: 5px; /* Borde redondeado */
+    font-size: 16px; /* Tamaño de fuente */
+    background-color: #fff; /* Color de fondo */
+    transition: border-color 0.3s ease; /* Transición suave */
+}
+
+.filtro select:focus {
+    outline: none; /* Elimina el contorno */
+    border-color: #007bff; /* Color del borde cuando tiene foco */
+}
+
+.filtro > * {
+    margin: 5px; /* Márgenes */
+}
+
+.filtro label {
+    font-size: 18px; /* Tamaño de fuente */
 }
 
 .buscador input[type="text"] {
-    padding: 8px;
-    width: 200px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 8px; /* Relleno */
+    width: 200px; /* Ancho */
+    border: 1px solid var(--color-grisaceo); /* Borde */
+    border-radius: 4px; /* Borde redondeado */
 }
 
-/* label */
+/* Estilos para los mensajes de alerta */
+.alert-danger {
+    color: #721c24; /* Color del texto */
+    background-color: #f8d7da; /* Color de fondo */
+    text-align: center; /* Alineación del texto */
+    border-color: #f5c6cb; /* Color del borde */
+    padding: 10px; /* Relleno */
+    margin: 10px auto; /* Márgenes */
+    border-radius: 8px; /* Borde redondeado */
+    max-width: 400px; /* Ancho máximo */
+}
+
+/* Estilos para los mensajes de error */
+.error-message{
+    color: red; /* Color del texto */
+}
+
+/* Estilos para el contenedor del gráfico */
+.grafico-container {
+    width: 100%; /* Ancho */
+    max-width: 800px; /* Ancho máximo */
+    margin: 0 auto; /* Centra horizontalmente */
+    padding: 20px; /* Relleno */
+}
+
+.graficoCanariosPorAnio {
+    background-color: rgba(173, 216, 230, 0.5); /* Color de fondo */
+    border-color: rgba(75, 192, 192, 1); /* Color del borde */
+    border-width: 1px; /* Ancho del borde */
+}
+
+/* Estilos para el contador de visitas */
+.containerV {
+    border: 0.2em solid var(--color-negro); /* Borde */
+    text-align: center; /* Alineación del texto */
+}
+
+#numeroVeces {
+    color: var(--color-negro); /* Color del texto */
+    text-align: center; /* Alineación del texto */
+}
+
+/* Estilos para los enlaces */
+a {
+    text-decoration: none; /* Elimina el subrayado */
+    color: var(--color-azul); /* Color del texto */
+    transition: color 0.3s ease; /* Transición suave */
+}
+
+a:hover {
+    color: var(--color-azulH); /* Cambia el color del texto al pasar el mouse */
+}
+
+/* Estilos para los formularios */
+.formulario {
+    background: var(--color-blanco); /* Color de fondo */
+    border-radius: 8px; /* Borde redondeado */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    width: 90%; /* Ancho */
+}
+
 label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
+    display: block; /* Muestra como bloque */
+    margin-bottom: 10px; /* Márgenes inferiores */
+    font-weight: bold; /* Texto en negrita */
 }
 
-/* Entradas de texto */
 input[type="text"],
 input[type="number"],
 input[type="password"],
@@ -124,197 +209,651 @@ input[type="date"],
 input[type="email"],
 input[type="button"],
 input[type="submit"] {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: border-color 0.3s ease;
+    width: 100%; /* Ancho */
+    border: 1px solid var(--color-grisaceo); /* Borde */
+    border-radius: 5px; /* Borde redondeado */
+    transition: border-color 0.3s ease; /* Transición suave */
 }
 
-/* Botones */
+/* Estilos para las tablas */
+table {
+    width: 90%; /* Ancho */
+    border-collapse: collapse; /* Colapsa los bordes de la tabla */
+    margin: 0 auto; /* Centra horizontalmente */
+}
+
+th, td {
+    border: 1px solid #ddd; /* Borde */
+    padding: 8px; /* Relleno */
+    text-align: center; /* Alineación del texto */
+}
+
+th {
+    color: var(--color-blanco); /* Color del texto */
+    background-color: var(--color-azul); /* Color de fondo */
+}
+
+th:hover {
+    color: black; /* Color del texto al pasar el mouse */
+    background-color: var(--color-azulH); /* Color de fondo al pasar el mouse */
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Color de fondo para filas pares */
+}
+
+tr:hover {
+    background-color: #ddd; /* Color de fondo al pasar el mouse */
+}
+
+/* Estilos para las tarjetas */
+.tarjetas-container {
+    display: grid; /* Utiliza el modelo de caja en cuadrícula */
+    margin: 0 auto; /* Centra horizontalmente */
+}
+
+.card {
+    margin-bottom: 30px; /* Márgenes inferiores */
+    border: 1px solid var(--color-grisaceo); /* Borde */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* Sombra */
+    display: flex; /* Utiliza el modelo de caja flexible */
+    flex-direction: column; /* Los elementos hijos se apilan verticalmente */
+    align-items: center; /* Centra horizontalmente los elementos */
+    border-radius: 12px; /* Borde redondeado */
+}
+
+.card:hover {
+    transform: scale(1.05); /* Aumenta el tamaño al pasar el mouse */
+    transition: transform 0.3s ease; /* Transición suave */
+}
+
+.card-content {
+    width: 90%; /* Ancho */
+    text-align: center; /* Alineación del texto */
+}
+
+.nombre-raza {
+    margin: 0; /* Elimina los márgenes */
+    text-align: center; /* Alineación del texto */
+    color: var(--color-blanco); /* Color del texto */
+    background-color: var(--color-azul); /* Color de fondo */
+}
+
+.card-info {
+    list-style: none; /* Elimina los estilos de la lista */
+    padding: 0; /* Elimina el relleno predeterminado */
+    margin: 10px 0; /* Márgenes */
+}
+
+.card-info li {
+    margin: 5px 0; /* Márgenes */
+}
+
+.card-actions {
+    display: flex; /* Utiliza el modelo de caja flexible */
+    justify-content: space-between; /* Distribuye el espacio entre los elementos */
+    align-items: center; /* Centra verticalmente los elementos */
+    width: 100%; /* Ancho */
+}
+
+.center-content {
+    text-align: center; /* Alineación del texto */
+}
+
+/* Estilos para los botones */
 input[type="button"],
 input[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    padding: 12px 20px;
-    transition: background-color 0.3s ease;
+    background-color: var(--color-azul); /* Color de fondo */
+    color: var(--color-blanco); /* Color del texto */
+    cursor: pointer; /* Cursor de ratón */
+    font-size: 16px; /* Tamaño de fuente */
+    border: none; /* Elimina el borde */
+    border-radius: 5px; /* Borde redondeado */
+    padding: 12px 20px; /* Relleno */
+    transition: background-color 0.3s ease; /* Transición suave */
 }
 
 .botones-container {
-    text-align: center;
-    margin-top: 30px;
+    text-align: center; /* Alineación del texto */
 }
 
 .centrar-botones {
-    text-align: center;
+    text-align: center; /* Alineación del texto */
 }
 
 input[type="button"]:hover,
 input[type="submit"]:hover {
-    color: black;
-    background-color: #0056b3;
+    color: black; /* Color del texto al pasar el mouse */
+    background-color: var(--color-azulH); /* Color de fondo al pasar el mouse */
 }
 
-/* Enlaces */
-a {
-    text-decoration: none;
-    color: #007bff;
-    transition: color 0.3s ease;
+/* Estilos para la paginación */
+.pagination {
+    text-align: center; /* Alineación del texto */
+    margin-bottom: 1em; /* Márgenes inferiores */
 }
 
-a:hover {
-    color: #0056b3;
+.w-5, .h-5 {
+    width: 1.8rem; /* Ancho */
+    height: 1.8rem; /* Altura */
+    margin-bottom: -0.6em; /* Márgenes inferiores */
 }
 
-/* Tarjetas */
-.tarjetas-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Tres columnas */
-    gap: 20px; /* Espacio entre las tarjetas */
+/* Estilos para el pie de página */
+.pie {
+    align-items: center; /* Centra verticalmente los elementos */
+    border-top: 2px solid black; /* Borde superior */
+    border-bottom: 2px solid black; /* Borde inferior */
+    padding: 5px; /* Relleno */
+    text-align: center; /* Alineación del texto */
+    background-color: var(--color-negro); /* Color de fondo */
+    color: var(--color-blanco); /* Color del texto */
 }
 
-.card {
-    max-width: calc(90% - 20px); /* Ancho máximo para las tarjetas */
-    width: 100%; /* Garantiza que las tarjetas se ajusten correctamente */
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-    display: flex; 
-    flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
+/* Estilos para móvil */
+@media (max-width: 767px) {
+    .header {
+        padding: 10px; /* Ajustar el relleno de la cabecera */
+        text-align: center; /* Centrar el texto en la cabecera */
+    }
+    
+    .header h1 {
+        font-size: 24px; /* Reducir el tamaño de la fuente del título */
+    }
+    
+    .header img {
+        width: 120px; /* Reducir el tamaño del logo */
+        margin-right: 15px; /* Reducir el espacio entre el logo y otros elementos */
+    }
+    
+    .cerrar-sesion {
+        padding: 6px 10px; /* Reducir aún más el relleno del botón */
+        font-size: 11px; /* Reducir el tamaño de la fuente del botón */
+        width: auto; /* Permitir que el ancho del botón se ajuste automáticamente */
+        white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
+    }
+    
+    h2 {
+        font-size: 18px; /* Reducir el tamaño del texto */
+        padding: 8px; /* Reducir el relleno */
+        border-radius: 3px; /* Reducir el radio de borde */
+    }
+    
+    .containerV {
+        padding: 1em; /* Reducir el relleno del contenedor */
+        width: 70%; /* Reducir el ancho del contenedor */
+        margin: 0 auto 1em; /* Ajustar el margen inferior y centrar horizontalmente */
+        font-size: 0.9em; /* Reducir el tamaño de la fuente */
+    }
+    
+    #numeroVeces {
+        font-size: 1em; /* Ajustar el tamaño de la fuente */
+    }
+    
+    .container {
+        width: 95%; /* Ajustar el ancho del contenedor principal */
+    }
+    
+    .menu {
+        flex-direction: column; /* Cambiar la dirección del flex para el menú en dispositivos móviles */
+        align-items: stretch; /* Estirar los elementos del menú para ocupar todo el ancho */
+    }
+    
+    .menu ul li {
+        display: block; /* Cambiar los elementos del menú a bloques */
+        margin-bottom: 20px; /* Agregar margen inferior entre elementos del menú */
+    }
+    
+    .menu ul li a {
+        width: 100%; /* Hacer que los enlaces ocupen todo el ancho disponible */
+        text-align: center; /* Centrar el texto en dispositivos móviles */
+        padding: 10px; /* Ajustar el relleno de los enlaces */
+    }
+    
+    .buscador {
+        margin-top: 10px; /* Ajustar el margen superior del buscador */
+    }
+
+    .filtro {
+        flex-direction: column; /* Cambiar a disposición de columna */
+        align-items: center; /* Centrar horizontalmente los elementos */
+        width: 80%; /* Establecer un ancho máximo */
+        margin: 0 auto; /* Centrar el filtro horizontalmente */
+        margin-bottom: 20px; /* Añadir espacio debajo del formulario */
+    }
+
+    .filtro > * {
+        margin: 3px; /* Reducir los márgenes */
+    }
+
+    .filtro select {
+        width: 60%; /* Ocupar todo el ancho disponible */
+        font-size: 14px; /* Reducir el tamaño de la fuente */
+        padding: 8px; /* Reducir el relleno */
+        
+    }
+
+    .filtro label {
+        font-size: 16px; /* Reducir el tamaño de la fuente del label */
+    }
+    
+    .botones-container,
+    .centrar-botones {
+        margin-top: 20px; /* Ajustar el margen superior de los contenedores de botones */
+    }
+    
+    .tarjetas-container {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ancho dinámico con mínimo de 300px */
+        gap: 30px; /* Espacio entre tarjetas */
+        justify-content: center; /* Centrar las tarjetas horizontalmente */
+        padding: 0 15px; /* Aumentar el relleno a los lados */
+    }
+    
+    .card {
+        width: 100%; /* Ancho completo de las tarjetas */
+        max-width: 300px; /* Ancho máximo de las tarjetas */
+    }
+    
+    .card-content {
+        padding: 20px; /* Ajustar el espacio de relleno en el contenido de la tarjeta */
+    }
+    
+    .card-actions {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .seleccionar-concurso-container input[type="button"] {
+        padding: 10px 20px; /* Aumentar el relleno del botón */
+        width: 12.5em; /* Ancho fijo para el botón */
+    }
+    
+    .formulario {
+        width: 90%; /* Ajustar el ancho del formulario */
+        max-width: 300px; /* Establecer un ancho máximo para el formulario */
+        margin: 10px auto; /* Ajustar el margen del formulario */
+        padding: 20px; /* Reducir el relleno del formulario */
+    }
+    
+    .formulario input[type="submit"] {
+        display: block; /* Convertir el botón en un bloque para aplicar márgenes */
+        margin: 0 auto; /* Centrar el botón horizontalmente y agregar un margen superior */
+    }
+    
+    .formulario-container {
+        margin: 0 auto; /* Centra el contenedor horizontalmente */
+        margin-bottom: 2em; /* Añadir margen inferior */
+    }
+    
+    /* Estilos para las entradas de texto y botones */
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    input[type="date"],
+    input[type="email"],
+    input[type="button"],
+    input[type="submit"] {
+        margin-bottom: 10px; /* Reducir el margen inferior */
+        padding: 8px; /* Reducir el relleno */
+        font-size: 14px; /* Reducir el tamaño de la fuente */
+        width: calc(100% - 16px); /* Reducir el ancho */
+    }
+    
+    /* Estilos para los botones */
+    input[type="button"],
+    input[type="submit"] {
+        padding: 8px 12px; /* Reducir el relleno */
+        font-size: 14px; /* Reducir el tamaño de la fuente */
+        width: 80px; /* Ancho fijo para los botones */
+    }
+    
+    .portada {
+        height: auto; /* Permitir que la altura de la portada se ajuste automáticamente */
+        margin-top: 2vh; /* Ajustar el margen superior de la portada */
+    }
+    
+    .portada img {
+        max-width: 100%; /* Ajustar el ancho máximo de la imagen */
+        max-height: 40vh; /* Ajustar la altura máxima de la imagen */
+        margin: 0 auto 1.5em; /* Ajustar los márgenes */
+        display: block; /* Añadir esta propiedad */
+    }
+    
+    /* Estilos para la tabla */
+    .table-container {
+        overflow: auto; /* Permitir desplazamiento horizontal en caso de que el contenido sea demasiado ancho */
+        -webkit-overflow-scrolling: touch; /* Mejorar el desplazamiento en Safari */
+        max-width: 100%; /* Ajustar el ancho máximo */
+        margin-bottom: 15px; /* Añadir margen inferior */
+    }
+    
+    /* Estilos para los botones dentro de la tabla */
+    .table-container input[type="button"],
+    .table-container input[type="submit"] {
+        cursor: pointer; /* Cambiar el cursor al pasar sobre los botones */
+        padding: 6px 10px; /* Ajustar el relleno de los botones */
+        font-size: 12px; /* Ajustar el tamaño de la fuente de los botones */
+        width: auto; /* Permitir que el ancho de los botones se ajuste automáticamente */
+        white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
+    }
+    
+    /* Estilos para el pie de página */
+    .pie {
+        flex-direction: column; /* Cambiar la dirección del flex para el pie de página */
+        text-align: center; /* Centrar el texto en el pie de página */
+        padding-top: 1em; /* Añadir espacio en la parte superior del pie de página */
+        padding-bottom: 1em; /* Añadir espacio en la parte inferior del pie de página */
+    }
+    
+    .footer-section {
+        border-right: none; /* Quitar el borde derecho en dispositivos móviles */
+        border-bottom: 2px solid var(--color-blanco); /* Añadir borde inferior */
+        margin-bottom: 10px; /* Añadir margen inferior */
+        max-width: 80%; /* Establecer un ancho máximo */
+        margin: 0 auto; /* Centrar horizontalmente */
+    }
 }
 
-.card:hover {
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
+/* Estilos para Tablet */
+@media (min-width: 768px) and (max-width: 990px) {
+    /* Cabecera */
+    .header {
+        padding: 20px; /* Ajustar el padding */
+        text-align: center; /* Centrar el texto en la cabecera */
+    }
+
+    .header h1 {
+        font-size: 26px; /* Ajustar el tamaño de la fuente del título */
+    }
+
+    .header img {
+        width: 140px; /* Ajustar el tamaño del logo */
+        margin-right: 20px; /* Ajustar el margen derecho */
+    }
+
+    h2 {
+        margin-top: 0.3em; /* Ajusta este valor según tus preferencias */
+    }
+
+    /* Menú */
+    .menu {
+        flex-direction: column; /* Cambiar la dirección del flex para el menú en dispositivos móviles */
+        align-items: stretch; /* Estirar los elementos del menú para ocupar todo el ancho */
+    }
+    
+    .menu ul li {
+        display: block; /* Cambiar los elementos del menú a bloques */
+        margin-bottom: 20px; /* Agregar margen inferior entre elementos del menú */
+    }
+    
+    .menu ul li a {
+        width: 100%; /* Hacer que los enlaces ocupen todo el ancho disponible */
+        text-align: center; /* Centrar el texto en dispositivos móviles */
+        padding: 10px; /* Ajustar el relleno de los enlaces */
+    }
+    
+    .buscador {
+        margin-top: 10px; /* Ajustar el margen superior del buscador */
+    }
+
+    /*Filtros*/
+    .filtro {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px; /* Ajusta el espacio entre los elementos */
+        justify-content: center; /* Centra los elementos horizontalmente */
+        margin-bottom: 20px; /* Añade un margen inferior para separar del contenido siguiente */
+    }
+    
+    .filtro label,
+    .filtro select {
+        width: calc(50% - 8px); /* Ajusta el ancho de los elementos a la mitad menos el espacio entre ellos */
+        max-width: 150px; /* Asegura que los elementos no se extiendan más allá de este tamaño */
+        margin-bottom: 8px; /* Añade un margen inferior para separar los elementos */
+    }
+    
+    .filtro select {
+        margin-top: 0; /* Asegura que no haya margen superior */
+    }
+
+    /*Grafico*/
+    .grafico-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    #graficoCanariosPorAnio {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Tarjetas */
+    .tarjetas-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); /* Ajuste aquí */
+        gap: 16px;
+    }
+
+    .card {
+        padding: 10px;
+        margin: 8px;
+        height: auto;
+    }
+
+    .card-actions {
+        flex-direction: column;
+    }
+
+    .card-actions input[type="button"],
+    .card-actions input[type="submit"] {
+        width: 100%;
+    }
+
+    /* Formularios */
+    .formulario {
+        max-width: 350px; /* Ajustar el ancho máximo del formulario */
+        padding: 30px; /* Ajustar el padding */
+        margin: 0 auto;
+        margin-bottom: 2em;
+    }
+
+    /* Entradas de texto */
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    input[type="date"],
+    input[type="email"],
+    input[type="button"],
+    input[type="submit"] {
+        padding: 10px; /* Ajustar el padding de los elementos de entrada */
+        margin-bottom: 15px; /* Ajustar el margen inferior */
+    }
+
+    /* Botones */
+    input[type="button"],
+    input[type="submit"] {
+        padding: 10px 20px; /* Ajustar el padding de los botones */
+        font-size: 14px; /* Ajustar el tamaño de la fuente */
+        width: 100%; /* Ancho completo para los botones */
+    }
+
+    /* Contenedor de visitas */
+    .containerV {
+        padding: 1em; /* Reducir el relleno del contenedor */
+        width: 70%; /* Reducir el ancho del contenedor */
+        margin: 0 auto 1em; /* Ajustar el margen inferior y centrar horizontalmente */
+        font-size: 1em; /* Reducir el tamaño de la fuente */
+    }
+
+    /* Estilos para la tabla */
+    .table-container {
+        overflow: auto; /* Permitir desplazamiento horizontal en caso de que el contenido sea demasiado ancho */
+        -webkit-overflow-scrolling: touch; 
+        max-width: 100%; /* Ajustar el ancho máximo */
+        margin-bottom: 15px; /* Añadir margen inferior */
+    }
+
+    .container {
+        margin-bottom: 5%;
+    }
+
+    /* Pie de página */
+    .pie {
+        flex-direction: column; /* Cambiar la dirección del flex para el pie de página */
+        text-align: center; /* Centrar el texto en el pie de página */
+        padding-top: 20px; /* Ajustar el espacio en la parte superior del pie de página */
+        padding-bottom: 20px; /* Ajustar el espacio en la parte inferior del pie de página */
+    }
+
+    .footer-section {
+        border-right: none; /* Quitar el borde derecho en dispositivos móviles */
+        border-bottom: 2px solid var(--color-blanco); /* Añadir borde inferior */
+        margin-bottom: 20px; /* Ajustar el margen inferior */
+    }
 }
 
-.card-content {
-    width: 60%;
-    padding: 20px;
-    text-align: center;
-}
+/* Estilos para Ordenador */
+@media (min-width: 991px) {
+    /* Cabecera */
+    .header {
+        display: flex; /* Utiliza un contenedor flexible */
+        align-items: center; /* Alinea los elementos verticalmente */
+        justify-content: space-between; /* Distribuye los elementos horizontalmente */
+        padding: 30px; /* Agrega relleno alrededor del contenido */
+    }
 
-.nombre-raza {
-    margin: 0;
-    text-align: center;
-    color: #fff;
-    background-color: #007bff;
-}
+    .header h1 {
+        font-size: 30px; /* Tamaño de fuente */
+    }
 
-.card-info {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0;
-}
+    .header img {
+        width: 160px; /* Ancho de la imagen */
+        margin-right: 30px; /* Margen derecho para separar la imagen */
+    }
 
-.card-info li {
-    margin: 5px 0;
-}
+    h2 {
+        padding: 10px; /* Agrega relleno alrededor del título */
+        border-radius: 5px; /* Establece esquinas redondeadas */
+    }
 
-.card-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%; 
-}
+    /* Imagen de portada */
+    .portada {
+        display: flex; /* Utiliza un contenedor flexible */
+        justify-content: center; /* Centra los elementos horizontalmente */
+        align-items: flex-start; /* Alinea los elementos verticalmente en la parte superior */
+        height: 70vh; /* Altura relativa al 70% de la altura de la ventana */
+        margin-top: 5vh; /* Margen superior */
+    }
 
-/* Tablas */
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+    .portada img {
+        max-width: 90%; /* Ancho máximo de la imagen */
+        max-height: 90%; /* Altura máxima de la imagen */
+    }
+    
+    /* Menú */
+    .menu {
+        align-items: center; /* Alinea los elementos verticalmente */
+    }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
+    .menu ul li {
+        display: inline-block; /* Muestra los elementos de la lista en línea */
+        margin-right: 10px; /* Margen derecho para separar los elementos */
+    }
 
-th {
-    color: #fff;
-    background-color: #007bff;
-}
+    .menu ul li a {
+        padding: 10px 20px; /* Agrega relleno alrededor de los enlaces */
+    }
 
-th:hover {
-    color: black;
-    background-color: #0056b3;
-}
+    .buscador {
+        margin-top: 20px; /* Margen superior */
+        margin-left: 10px; /* Margen izquierdo */
+    }
 
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
+    /* Contador de visitas */
+    .containerV {
+        padding: 1.5em; /* Agrega relleno alrededor del contenedor */
+        width: 18em; /* Ancho del contenedor */
+        margin: 0 auto; /* Margen automático a los lados para centrar el contenedor */
+    }
 
-tr:hover {
-    background-color: #ddd;
-}
+    #numeroVeces {
+        font-size: 1.3em; /* Tamaño de fuente */
+    }
 
-/* Mensajes Alerta */
-.alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    text-align: center;
-    border-color: #f5c6cb;
-    padding: 10px; 
-    margin: 10px auto; 
-    border-radius: 8px; 
-    max-width: 400px; 
-}
+    /* Tarjetas */
+    .tarjetas-container {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Distribución de columnas en función del ancho disponible */
+        gap: 30px; /* Espacio entre las tarjetas */
+        max-width: 1200px; /* Ancho máximo del contenedor de tarjetas */
+    }
 
-/* Estilos para el contenedor del gráfico */
-.grafico-container {
-    width: 100%;
-    max-width: 800px; 
-    margin: 0 auto; 
-    padding: 20px; 
-}
+    .card {
+        width: 105%; /* Ancho ligeramente mayor que el contenedor */
+    }
 
-.graficoCanariosPorAnio {
-    background-color: rgba(173, 216, 230, 0.5); 
-    border-color: rgba(75, 192, 192, 1);
-    border-width: 1px;
-}
+    .card-content {
+        padding: 20px; /* Agrega relleno alrededor del contenido de la tarjeta */
+    }
+    
+    /* Formularios */
+    .formulario {
+        width: 100%; /* Ancho total del formulario */
+        max-width: 400px; /* Ancho máximo del formulario */
+        margin: 50px auto; /* Margen superior e inferior automático, margen izquierdo y derecho automático para centrar el formulario */
+        padding: 40px; /* Agrega relleno alrededor del formulario */
+    }
 
-/* Pie de pagina */
-footer {
-    margin-top: 3em; /* Margen superior */
-    display: flex; /* Muestra los elementos flexibles */
-    justify-content: space-around; /* Distribuye el espacio entre los elementos */
-    align-items: center; /* Alinea los elementos al centro verticalmente */
-    padding: 1.5em; /* Espaciado interno */
-    text-align: center; /* Alineación del texto al centro */
-    background-color: #333;
-    color: white;
-}
+    .formulario label {
+        font-size: 1.3em; /* Tamaño de fuente de las etiquetas */
+    }
+    
+    .formulario select {
+        font-size: 1.3em; /* Tamaño de fuente de los selectores */
+    }
 
-footer p {
-    margin: 0; /* Elimina el margen predeterminado de los párrafos */
-    text-align: center; /* Alinea el texto al centro */
-}
+    .centrar-elementos {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .centrar-elementos label,
+    .centrar-elementos select {
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+    
+    .centrar-elementos select {
+        width: 100%; /* Puedes ajustar el ancho según tus necesidades */
+        max-width: 300px; /* Ajusta este valor según el diseño que desees */
+    }
 
-footer p:first-child {
-    text-align: center; /* Alinea el texto al centro */
-    flex: 1; /* El primer párrafo ocupa todo el espacio disponible */
-}
+    /* Entradas de texto */
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    input[type="date"],
+    input[type="email"],
+    input[type="button"],
+    input[type="submit"] {
+        padding: 12px; /* Agrega relleno alrededor de los campos de entrada */
+        margin-bottom: 20px; /* Margen inferior para separar los campos */
+    }
 
-footer p:last-child {
-    margin-left: auto; /* Mueve el último párrafo a la derecha */
-}
+    /* Botones */
+    .botones-container {
+        margin-top: 30px; /* Margen superior */
+    }
 
-.portada {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Alineación arriba */
-    height: 70vh; /* Reducción de la altura */
-    margin-top: 5vh; /* Margen superior reducido */
-}
+    /* Pie de página */
+    .pie {
+        margin-top: auto; /* Margen superior automático para empujar hacia abajo desde el contenido anterior */
+        display: flex; /* Utiliza un contenedor flexible */
+        justify-content: space-around; /* Distribuye los elementos horizontalmente con espaciado uniforme */
+    }
 
-.portada img {
-    max-width: 90%; /* Tamaño más pequeño */
-    max-height: 90%; /* Tamaño más pequeño */
+    .footer-section {
+        border-right: 2px solid var(--color-blanco); /* Borde derecho con color personalizado */
+        flex: 1; /* Toma el espacio disponible en el contenedor flexible */
+    }
 }

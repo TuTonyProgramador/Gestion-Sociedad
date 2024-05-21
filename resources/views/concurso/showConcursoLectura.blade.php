@@ -9,7 +9,7 @@
 @section('contenido')
     <div class="menu">
         <ul>
-            <li><a href="{{ route('canario.showCan') }}" title="Botón Volver">Volver</a></li>
+            <li><a href="{{ route('canario.showCanA') }}" title="Botón Volver">Volver</a></li>
         </ul>
     </div>
     <h2>Listado de concursos</h2>

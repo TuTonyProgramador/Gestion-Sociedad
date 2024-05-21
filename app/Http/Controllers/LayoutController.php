@@ -45,21 +45,4 @@ class LayoutController extends Controller
         // Redirige al usuario a la vista de inicio del criador después de cerrar sesión
         return redirect(route('criador.sesionC'));
     }
-
-    public function enviarLinkRecuperacion(Request $request) {
-        $request->validate([
-            'email' => ['required', 'email'],
-        ]);
-
-        // Envía el enlace de restablecimiento de contraseña al correo proporcionado
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        // Verifica el resultado de la solicitud y redirige en consecuencia
-        return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
-    }
 }

@@ -28,18 +28,20 @@ Route::get('/criador/edit{criador}', [CriadorController::class, 'edit'])->name('
 Route::put('/criador/update/{criador}', [CriadorController::class, 'update'])->name('criador.update')->middleware('auth');
 Route::delete('/criador/destroy/{criador}', [CriadorController::class, 'destroy'])->name('criador.destroy')->middleware('auth');
 Route::get('/criador/search', [CriadorController::class, 'search'])->name('criador.search')->middleware('auth');
+Route::get('criador/formularioCorreo', [CriadorController::class, 'formularioCorreo'])->name('criador.formularioCorreo')->middleware('auth');
+Route::post('criador/enviaCcorreo', [CriadorController::class, 'enviarCorreo'])->name('criador.enviarCorreo')->middleware('auth');
 
 // Rutas del canario 
 Route::get('/canario/createCanario', [CanarioController::class, 'create'])->name('canario.create')->middleware('auth');
 Route::post('/canario/store', [CanarioController::class, 'store'])->name('canario.store')->middleware('auth');
-Route::get('/canario/showCanario', [CanarioController::class, 'showCan'])->name('canario.showCan')->middleware('auth');
 Route::get('/canario/showCanarioAdmin', [CanarioController::class, 'showCanA'])->name('canario.showCanA')->middleware('auth');
 Route::get('/canario/edit{canario}', [CanarioController::class, 'edit'])->name('canario.edit')->middleware('auth');
 Route::put('/canario/update/{canario}', [CanarioController::class, 'update'])->name('canario.update')->middleware('auth');
+Route::get('/canario/seleccionarC/{canario}', [CanarioController::class, 'seleccionarCEdit'])->name('canario.seleccionarCEdit')->middleware('auth');
+Route::put('/canario/seleccionarC/{canario}', [CanarioController::class, 'seleccionarCUpdate'])->name('canario.seleccionarCUpdate')->middleware('auth');
 Route::delete('/canario/destroy/{canario}', [CanarioController::class, 'destroy'])->name('canario.destroy')->middleware('auth');
 Route::get('/graficos/graficoCanarios', [GraficoController::class, 'graficoCanarios'])->name('graficos.graficoCanarios')->middleware('auth');
 Route::get('/canario/search', [CanarioController::class, 'search'])->name('canario.search')->middleware('auth');
-
 
 // Rutas de los concursos
 Route::get('/concurso/showConcursoLectura', [ConcursoController::class, 'showConL'])->name('concurso.showConL')->middleware('auth');
@@ -49,6 +51,5 @@ Route::get('/concurso/showConcurso', [ConcursoController::class, 'showCon'])->na
 Route::get('/concurso/edit{concurso}', [ConcursoController::class, 'edit'])->name('concurso.edit')->middleware('auth');
 Route::put('/concurso/update/{concurso}', [ConcursoController::class, 'update'])->name('concurso.update')->middleware('auth');
 Route::delete('/concurso/destroy/{concurso}', [ConcursoController::class, 'destroy'])->name('concurso.destroy')->middleware('auth');
-
 Route::get('/concurso/canariosConcurso/{concurso}', [ConcursoController::class, 'canariosConcurso'])->name('concurso.canariosConcurso')->middleware('auth');
 Route::get('/concurso/canariosCriador', [ConcursoController::class, 'canariosCriador'])->name('concurso.canariosCriador')->middleware('auth');

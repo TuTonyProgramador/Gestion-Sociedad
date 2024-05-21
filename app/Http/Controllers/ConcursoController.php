@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Concurso;
 use App\Models\Criador;
+use App\Models\Canario;
 use Illuminate\Support\Facades\Auth;
 
 class ConcursoController extends Controller
@@ -47,11 +48,31 @@ class ConcursoController extends Controller
     Devuelve: la vista del crear concurso si hay algun error
     */
     public function store(Request $request){
-        // Obtiene el admin asociado al usuario autenticado
+        // Obtienemos el admin asociado al usuario autenticado
         $admin = Auth::user();
-
+    
+        // Verificamos si existe un concurso con la misma fecha, sede y ubicación
+        $existeConcurso = Concurso::where('fechaConcurso', $request->fechaConcurso)
+                                    ->where('sede', $request->sede)
+                                    ->where('ubicacion', $request->ubicacion)
+                                    ->first();
+    
+        if ($existeConcurso) {
+            return redirect()->back()->with('error', 'Ya existe un concurso con la misma fecha, sede y ubicación.');
+        } 
+    
+        // Verificamos si existe una sede y ubicación registradas en otro concurso
+        $existeSedeUbicacion = Concurso::where('sede', $request->sede)
+                                          ->where('ubicacion', $request->ubicacion)
+                                          ->exists();
+    
+        if ($existeSedeUbicacion) {
+            return redirect()->back()->with('error', 'Ya existe un concurso con la misma sede y ubicación.');
+        }
+    
+        // Creamos el nuevo concurso
         Concurso::create($request->all());
-
+    
         return redirect()->route('concurso.showCon');
     }
 
@@ -71,7 +92,7 @@ class ConcursoController extends Controller
     Devuelve: la vista 'concurso.showCon' 
     */
     public function update(Request $request, Concurso $concurso) {
-        // Actualiza los datos del concurso
+        // Actualizamos los datos del concurso
         $concurso->update($request->all());
 
         return redirect()->route('concurso.showCon');
@@ -83,7 +104,7 @@ class ConcursoController extends Controller
     Devuelve: la vista 'concurso.showCon' 
     */
     public function destroy(Concurso $concurso) {
-        // Elimina el concurso de la base de datos
+        // Eliminamos el concurso de la base de datos
         $concurso->delete();
     
         return redirect()->route('concurso.showCon');
@@ -94,26 +115,78 @@ class ConcursoController extends Controller
     Recibe: un objeto de tipo Concurso
     Devuelve: la vista 'concurso.canariosConcurso' 
     */
+
     public function canariosConcurso(Concurso $concurso) {
         // Obtenemos los canarios asociados a este concurso específico
         $canarios = $concurso->canarios;
         
-        return view('concurso.canariosConcurso', compact('concurso', 'canarios'));
+        // Obtenemos valores únicos para los filtros
+        $sexos = $canarios->pluck('sexo')->unique();
+        $anillas = $canarios->pluck('numeroAnilla')->unique();
+        $nacimientos = $canarios->pluck('anioNacimiento')->unique();
+        $criadores = $canarios->pluck('criador.numeroCriador')->unique();
+        
+        return view('concurso.canariosConcurso', compact('concurso', 'canarios', 'sexos', 'anillas', 'nacimientos', 'criadores'));
     }
-
+    
     /*
     Función para mostrar los canarios por concurso del criador autenticado.
     Recibe: nada
     Devuelve: la vista 'concurso.canariosCriador' 
-    */
+    
     public function canariosCriador(){
         // Obtenemos el criador actualmente autenticado
         $criador = Auth::user(); 
         
-        // Obtenemos los concursos del criador actual, con los canarios asociados a cada concurso
-        $concursos = $criador->concursos()->with('canarios')->get();
+        // Obtenemos todos los concursos
+        $concursos = Concurso::with(['canarios' => function($query) use ($criador) {
+            // Filtramos los canarios para que solo sean los asociados con el criador actual
+            $query->where('criador_id', $criador->id);
+        }])->get();
         
-        return view('concurso.canariosCriador', compact('concursos'));
-    }
+        // Verificamos si no hay ningún canario asociado en ningún concurso
+        $sinCanarios = $concursos->pluck('canarios')->collapse()->isEmpty();
+        
+        return view('concurso.canariosCriador', compact('concursos', 'sinCanarios'));
+    }*/
 
+
+    public function canariosCriador(Request $request) {
+        // Obtenemos el criador actualmente autenticado
+        $criador = Auth::user();
+        
+        // Obtener todos los números de anilla asociados al criador que están en concursos
+        $anillas = Canario::where('criador_id', $criador->id)
+            ->whereHas('concursos') // Asegúrate de que hay una relación definida en el modelo Canario con concursos
+            ->pluck('numeroAnilla')
+            ->unique();
+        
+        // Obtener todos los concursos
+        $concursosQuery = Concurso::with(['canarios' => function($query) use ($criador) {
+            // Filtramos los canarios para que solo sean los asociados con el criador actual y que están en concursos
+            $query->where('criador_id', $criador->id);
+        }]);
+        
+        // Filtrar por número de anilla si se proporciona
+        if ($request->has('numero_anilla') && !empty($request->numero_anilla)) {
+            $concursosQuery->whereHas('canarios', function ($query) use ($request) {
+                $query->where('numeroAnilla', $request->numero_anilla);
+            });
+        }
+        
+        // Filtrar por ID de concurso si se proporciona
+        if ($request->has('concurso_id') && !empty($request->concurso_id)) {
+            $concursosQuery->where('id', $request->concurso_id);
+        }
+        
+        // Obtener los resultados
+        $concursos = $concursosQuery->get();
+        
+        // Verificamos si no hay ningún canario asociado en ningún concurso
+        $sinCanarios = $concursos->pluck('canarios')->collapse()->isEmpty();
+        
+        return view('concurso.canariosCriador', compact('concursos', 'sinCanarios', 'anillas'));
+    }
+    
+    
 }

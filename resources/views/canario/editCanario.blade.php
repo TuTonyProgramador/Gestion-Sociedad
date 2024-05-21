@@ -1,4 +1,5 @@
 @extends('layout.plantilla')
+
 @section('contenido_extra')
 <div class="menu">
     <ul>
@@ -6,42 +7,41 @@
     </ul>
 </div>
 @endsection
+
 @section('contenido')
-    <form action="{{ route('canario.update', ['canario' => $canario->id]) }}" method="POST" class="formulario">
+    <div class="menu">
+        <ul>
+            <li><a href="{{ route('canario.showCanA') }}" class="boton" title="Botón Volver">Volver</a></li>
+        </ul>
+    </div>
+    @if(session('error'))
+    <div class="alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
+    <form action="{{ route('canario.update', ['canario' => $canario->id]) }}" method="POST" class="formulario" onsubmit="return validarFormularioCanarios();">
         @csrf
         @method('put')
         <label for="nombreRaza">Nombre Raza: </label>
-        <input type="text" name="nombreRaza" value="{{ $canario->nombreRaza }}" required>
-        <br>
+        <input type="text" name="nombreRaza" id="nombreRaza" value="{{ old('nombreRaza', $canario->nombreRaza) }}" tabindex="1" required onblur="validacionCanarios(this)">
+        <div class="error-message" id="nombreRaza-error"></div>
         <br>
         <label for="anioNacimiento">Año de Nacimiento: </label>
-        <input type="number" name="anioNacimiento" value="{{ $canario->anioNacimiento }}" required>
-        <br>
+        <input type="number" name="anioNacimiento" id="anioNacimiento" value="{{ old('anioNacimiento', $canario->anioNacimiento) }}" tabindex="2" required onblur="validacionCanarios(this)">
+        <div class="error-message" id="anioNacimiento-error"></div>
         <br>
         <label for="sexo">Sexo: </label>
-        <input type="text" name="sexo" value="{{ $canario->sexo }}" required>
-        <br>
+        <input type="text" name="sexo" id="sexo" value="{{ old('sexo', $canario->sexo) }}" tabindex="3" required onblur="validacionCanarios(this)">
+        <div class="error-message" id="sexo-error"></div>
         <br>
         <label for="numeroAnilla">Numero Anilla: </label>
-        <input type="number" name="numeroAnilla" value="{{ $canario->numeroAnilla }}" required>
-        <br>
+        <input type="number" name="numeroAnilla" id="numeroAnilla" value="{{ old('numeroAnilla', $canario->numeroAnilla) }}" tabindex="4" required onblur="validacionCanarios(this)">
+        <div class="error-message" id="numeroAnilla-error"></div>
         <br>
         <label for="descripcion">Descripcion: </label>
-        <input type="text" name="descripcion" value="{{ $canario->descripcion }}" required>
+        <input type="text" name="descripcion" id="descripcion" value="{{ old('descripcion', $canario->descripcion) }}" tabindex="5" required onblur="validacionCanarios(this)">
+        <div class="error-message" id="descripcion-error"></div>
         <br>
-        <br>
-        <label for="vaConcurso">Selecciona el concurso:</label>
-        <select name="vaConcurso">
-            <option value="">Selecciona un concurso</option>
-            @foreach($concursos as $concurso)
-                <option value="{{ $concurso->id }}" {{ $concurso->id == $canario->vaConcurso ? 'selected' : '' }}>
-                    {{ $concurso->sede }}
-                </option>
-            @endforeach
-        </select>
-        <br>
-        <br>
-        <input type="submit" value="Guardar">
+        <input type="submit" tabindex="6" value="Guardar">
     </form>
 @endsection
-

@@ -10,18 +10,15 @@ class GraficoController extends Controller
 {
     /*
     Función para generar un gráfico de canarios por año.
-    Recibe: un objeto de tipo Canario.
+    Recibe: nada.
     Devuelve: la vista 'graficos.graficoCanarios'.
     */
-    public function graficoCanarios()
-    {
-        // Recupera los canarios y agrúpalos por año
+    public function graficoCanarios() {
+        // Recuperamos los canarios y se agrupan por año
         $canariosPorAnio = Canario::select(DB::raw('YEAR(created_at) as anio'), DB::raw('count(*) as total'))
             ->groupBy('anio')
             ->get();
 
-        // Envía los datos a la vista
         return view('graficos.graficoCanarios', ['canariosPorAnio' => $canariosPorAnio]);
     }
-
 }

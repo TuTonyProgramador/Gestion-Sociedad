@@ -1,4 +1,3 @@
-
 <tbody>
     @foreach ($criadores as $criador)
         <tr>

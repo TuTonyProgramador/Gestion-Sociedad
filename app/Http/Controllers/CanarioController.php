@@ -11,21 +11,6 @@ use Illuminate\Support\Facades\Auth;
 class CanarioController extends Controller
 {
     /*
-    Funcion para mostrarle al criador sus canarios (usuario normal)
-    Recibe: nada
-    Devuelve: la vista 'canario.showCanario'
-    */
-    public function showCan() {
-        // Obtenemos el usuario autenticado
-        $user = Auth::user();
-
-        // Obtenemos todos los canarios asociados al usuario
-        $canarios = $user->canarios;
-
-        return view('canario.showCanario', compact('canarios'));
-    }
-
-    /*
     Funcion para mostrarle al criador sus canarios (usuario admin)
     Recibe: nada
     Devuelve: la vista 'canario.showCanarioAdmin'
@@ -33,10 +18,10 @@ class CanarioController extends Controller
     public function showCanA() {
         // Obtenemos el usuario autenticado
         $user = Auth::user();
-
-        // Obtenemos todos los canarios asociados al usuario
-        $canarios = $user->canarios;
-
+        
+        // Obtenemos todos los canarios asociados al usuario paginados
+        $canarios = $user->canarios()->paginate(6);
+        
         return view('canario.showCanarioAdmin', compact('canarios'));
     }
     
@@ -49,6 +34,31 @@ class CanarioController extends Controller
         $concursos = Concurso::all();
     
         return view('canario.createCanario', compact('concursos'));
+    }
+
+    public function seleccionarCEdit(Canario $canario) {
+        $concursos = Concurso::all();
+
+        return view('canario.seleccionarC', compact('canario'), compact('concursos'));
+        
+    }
+
+    public function seleccionarCUpdate(Request $request, Canario $canario) {
+        // Actualiza los datos del canario, incluido el campo vaConcurso
+        $canario->update($request->all());
+    
+        // Obtenemos el valor del concurso seleccionado
+        $concursoSeleccionado = $request->input('vaConcurso');
+    
+        // Actualiza la relación en la tabla intermedia
+        if ($concursoSeleccionado) {
+            $canario->concursos()->sync([$concursoSeleccionado]);
+        } else {
+            $canario->concursos()->detach();
+        }
+    
+        return redirect()->route('canario.showCanA');
+        
     }
     
     /*
@@ -88,29 +98,20 @@ class CanarioController extends Controller
                 $canario->concursos()->attach($concursoSeleccionado);
             }
     
-            // Comprobamos si el usuario es administrador
-            if ($criador->esAdmin) {
-                // Si el usuario es un administrador, redirigir a la vista showCanA
-                return redirect()->route('canario.showCanA');
-            } else {
-                // Si el usuario no es un administrador, redirigir a la vista showCan
-                return redirect()->route('canario.showCan');
-            }
+            return redirect()->route('canario.showCanA');
+
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Ha ocurrido un error');
         }
     }
     
-
     /*
     Función para mostrar el formulario de edición de un criador.
     Recibe: un objeto de tipo Canario
     Devuelve: la vista 'canario.editCanario' con los datos del canario
     */
     public function edit(Canario $canario) {
-        $concursos = Concurso::all();
-
-        return view('canario.editCanario', compact('canario'), compact('concursos'));
+        return view('canario.editCanario', compact('canario'));
     }
     
     /*
@@ -120,25 +121,34 @@ class CanarioController extends Controller
     Devuelve: la vista 'canario.showCan' 
     */
     public function update(Request $request, Canario $canario) {
-        // Actualiza los datos del canario, incluido el campo vaConcurso
-        $canario->update($request->all());
+        // Validamos los datos de entrada
+        $validatedData = $request->validate([
+            'nombreRaza' => 'required|string|max:255',
+            'anioNacimiento' => 'required|integer',
+            'sexo' => 'required|string|max:10',
+            'numeroAnilla' => 'required|integer',
+            'descripcion' => 'required|string|max:255',
+        ]);
     
-        // Obtenemos el valor del concurso seleccionado
-        $concursoSeleccionado = $request->input('vaConcurso');
+        // Obtenemos la ID del criador desde la sesión del usuario autenticado
+        $criadorId = Auth::id();
     
-        // Actualiza la relación en la tabla intermedia
-        if ($concursoSeleccionado) {
-            $canario->concursos()->sync([$concursoSeleccionado]);
-        } else {
-            $canario->concursos()->detach();
+        // Comprobamos si ya existe un canario con el mismo criador, año y número de anilla
+        $existingCanario = Canario::where([
+            ['numeroAnilla', '=', $request->numeroAnilla],
+            ['anioNacimiento', '=', $request->anioNacimiento],
+            ['criador_id', '=', $criadorId],
+            ['id', '!=', $canario->id] 
+        ])->first();
+    
+        if ($existingCanario) {
+            return redirect()->back()->with('error', 'Este canario ya está registrado');
         }
     
-        // Redirecciona según el rol del usuario
-        if (Auth::user()->esAdmin) {
-            return redirect()->route('canario.showCanA');
-        } else {
-            return redirect()->route('canario.showCan');
-        }
+        // Actualizamos los datos del canario
+        $canario->update($validatedData + ['criador_id' => $criadorId]);
+    
+        return redirect()->route('canario.showCanA');
     }
     
     /*
@@ -167,7 +177,7 @@ class CanarioController extends Controller
 
     /*
     Función para realizar una búsqueda de canarios.
-    Recibe: la solicitud HTTP.
+    Recibe: un objeto de tipo Request con los datos 
     Devuelve: la vista canario.resultados_busqueda.
     */
     public function search(Request $request) {
@@ -198,6 +208,4 @@ class CanarioController extends Controller
         // Devolver los resultados de la búsqueda en formato HTML
         return view('canario.resultados_busqueda', compact('canarios'));
     }
-    
-     
 }

@@ -9,11 +9,7 @@
 @section('contenido')
 <div class="menu">
     <ul>
-        @if(Auth::check() && Auth::user()->esAdmin)
-            <li><a href="{{ route('canario.showCanA') }}" title="Botón Volver">Volver</a></li>
-        @else
-            <li><a href="{{ route('canario.showCan') }}" title="Botón Volver">Volver</a></li>
-        @endif
+        <li><a href="{{ route('canario.showCanA') }}" title="Botón Volver">Volver</a></li>
     </ul>
 </div>
 

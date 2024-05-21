@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Criador;
 use App\Models\Canario;
 use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EnviarCorreoMailable;
 
 class CriadorController extends Controller
 {
@@ -82,11 +84,11 @@ class CriadorController extends Controller
             
             // Comprobamos si el usuario es administrador
             if ($criador->esAdmin) {
-                // Si el usuario es administrador, redirige a una vista de administrador
+                // Si el usuario es administrador, redirige a la vista de administrador
                 return redirect()->route('criador.menu');
             } else {
-                // Si el usuario no es administrador, redirige a una vista de usuario normal
-                return view('canario.showCanario', compact('canarios')); 
+                // Si el usuario no es administrador, redirige a la vista de usuario normal (showCanarioAdmin)
+                return redirect()->route('canario.showCanA');
             }
         }
         
@@ -155,7 +157,7 @@ class CriadorController extends Controller
 
     /*
     Función para realizar una búsqueda de criadores.
-    Recibe: la solicitud HTTP.
+    Recibe: un objeto de tipo Request con la solicitud HTTP.
     Devuelve: la vista criador.resultados_busqueda.
     */
     public function search(Request $request) {
@@ -166,9 +168,48 @@ class CriadorController extends Controller
         $criadores = Criador::where('numeroCriador', 'LIKE', '%' . $query . '%')
                             ->orWhere('nombre', 'LIKE', '%' . $query . '%')
                             ->orWhere('apellidos', 'LIKE', '%' . $query . '%')
+                            ->orWhere('localidad', 'LIKE', '%' . $query . '%')
                             ->get();
     
         // Devolver solo los resultados de la búsqueda en formato HTML
         return view('criador.resultados_busqueda', compact('criadores'));
     }
+
+    /*
+    Función para mostrar el formulario de envío de correo electrónico.
+    Recibe: nada
+    Devuelve: la vista 'criador.formularioCorreo' con el formulario para enviar correo electrónico.
+    */
+    public function formularioCorreo() {
+        return view('criador.formularioCorreo');
+    }
+
+    /*
+    Función para procesar el envío de correo electrónico.
+    Recibe: un objeto de tipo Request con los datos del formulario de envío de correo.
+    Devuelve: una redirección a la aplicación de correo con los datos prellenados, o redirecciona de vuelta al formulario con un mensaje de error.
+    */
+    public function enviarCorreo(Request $request) {
+        // Validamos los datos del formulario
+        $request->validate([
+            'destinatario' => 'required|email',
+            'asunto' => 'required',
+            'mensaje' => 'required',
+        ]);
+    
+        // Obtienemos los datos del formulario
+        $destinatario = $request->input('destinatario');
+        $asunto = $request->input('asunto');
+        $mensaje = $request->input('mensaje');
+    
+        try {
+            // Creamos el enlace para abrir la aplicación de Gmail con el correo del administrador predeterminado
+            $url = 'https://mail.google.com/mail/?view=cm&fs=1&to=' . urlencode($destinatario) . '&su=' . urlencode($asunto) . '&body=' . urlencode($mensaje);
+    
+            // Redirigimos al usuario a la aplicación de Gmail con el enlace
+            return redirect()->away($url);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Ha ocurrido un error al abrir la aplicación de Gmail.');
+        }
+    } 
 }

@@ -1,4 +1,5 @@
 @extends('layout.plantilla')
+<script src="{{ asset('js/script.js') }}"></script>
 @section('contenido_extra')
 <div class="menu">
     <ul>
@@ -17,5 +18,23 @@
             <li><a href="{{ route('concurso.showCon') }}" title="Botón Gestionar Concursos">Gestionar Concursos</a></li>
         </ul>
     </div>
+    
+    <br>
+    
+    <div class="containerV">
+        <p>Has visitado esta web:</p>
+        <div id="numeroVeces"></div> 
+    </div>
+    <br>
+    <br>
 
+    <div class="table-container">
+        <table id="tabla">
+            <thead>
+                <tr>
+                    <th colspan="3" scope="col">Eventos Administradores en la Sede</th>
+                </tr>
+            </thead>
+        </table>
+    </div> 
 @endsection
